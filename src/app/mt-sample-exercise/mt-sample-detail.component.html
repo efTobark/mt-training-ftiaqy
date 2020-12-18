@@ -1,0 +1,12 @@
+<h5>Farm Selected</h5>
+<ul *ngIf="selectedFarm ; else noFarmBlock">
+	<li>ID: {{selectedFarm.id}}</li>
+	<li>Number: {{selectedFarm.farmNo}}</li>
+	<li>Name: {{selectedFarm.farmName}}</li>
+	<li>Address: {{selectedFarm.address}}</li>
+	<li>Active date: {{selectedFarm.activeDate | date}}</li>
+</ul>
+
+<ng-template #noFarmBlock>
+	<p>Select a farm from the table to show its details.</p>
+</ng-template>

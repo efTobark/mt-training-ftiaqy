@@ -1,0 +1,77 @@
+<h5>Farms List</h5>
+<div class="row">
+	<div class="col-md-6">
+		<!-- This is the filter: by No and by Active Date -->
+		<div class="form-group">
+			<label for="filterDowpDown">Filter By</label>
+			<select id="filterDowpDown" class="form-control" [(ngModel)]="filterFarms"
+        (ngModelChange)="activateFilter()">
+          <option value="">No filter</option>
+          <option value="no">No.</option>
+          <option value="date">Active Date</option>
+      </select>
+		</div>
+
+	</div>
+	<div class="col-md-6">
+		<button class="btn btn-outline-danger btn-sm" (click)="triggerError()">Error Button</button>
+	</div>
+</div>
+<div class="row mt-2">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Farm No</th>
+				<th scope="col">Farm Name</th>
+				<th scope="col">Active Date</th>
+			</tr>
+		</thead>
+		<ng-container *ngIf="!filterFarms; else filteredBlock">
+			<tr *ngFor="let f of farmsList" (click)="changeSelectedFarm(f)" class="pointer">
+				<td>{{f.farmNo}}</td>
+				<td>{{f.farmName}}</td>
+				<td>{{f.activeDate | date}}</td>
+			</tr>
+		</ng-container>
+	</table>
+</div>
+
+<ng-template #filteredBlock>
+	<tr *ngFor="let f of filteredList" (click)="changeSelectedFarm(f)"
+  class="pointer">
+		<td>{{f.farmNo}}</td>
+		<td>{{f.farmName}}</td>
+		<td>{{f.activeDate | date}}</td>
+	</tr>
+</ng-template>
+
+<div class="row">
+	<!-- The sf grid should be here -->
+	<div class="col-12">
+		<ejs-grid #mastergrid id="mastergrid" [dataSource]='farmsList' [selectedRowIndex]="0"
+			(rowSelected)="onRowSelected($event)">
+			<e-columns>
+				<e-column field='farmNo' headerText='Number' width='150'></e-column>
+				<e-column field='farmName' headerText='Name' width='200'></e-column>
+				<e-column field='activeDate' headerText='Active Date' width='150' format="yMd"></e-column>
+			</e-columns>
+		</ejs-grid>
+	</div>
+
+	<div class="col-12" *ngIf="key">
+		<div class='e-statustext my-3'>Showing details of farm: <b>{{key}}</b></div>
+	</div>
+
+	<div class="col-12">
+		<ejs-grid #detailgrid id="detailgrid" [dataSource]='detailList' [allowSelection]='false' class="mb-4">
+			<e-columns>
+				<e-column field='id' headerText='ID' width='50'></e-column>
+				<e-column field='farmNo' headerText='Number' width='150'></e-column>
+				<e-column field='farmName' headerText="Name" width='150'></e-column>
+				<e-column field='address' headerText="Address" width='150'></e-column>
+				<e-column field='activeDate' headerText="Address" width='100' format="yMd"></e-column>
+			</e-columns>
+		</ejs-grid>
+	</div>
+
+</div>
